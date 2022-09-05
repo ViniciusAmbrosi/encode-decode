@@ -51,7 +51,7 @@ public class GolombEncodeStrategy extends GolombStrategy{
             }
 
             FileUtils.writeByteArrayToFile(
-                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.ecc"),
+                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),
                     bytes.toByteArray());
         }
         catch(Exception e)

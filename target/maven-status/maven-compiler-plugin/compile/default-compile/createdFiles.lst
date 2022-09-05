@@ -6,4 +6,5 @@ strategies\golomb\GolombDecodeStrategy.class
 strategies\golomb\GolombStrategy.class
 App.class
 strategies\EncodeDecodeStrategy.class
+files\FileUtilsWrapper.class
 mediator\EncodeDecodeMediator.class
