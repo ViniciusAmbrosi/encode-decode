@@ -1,0 +1,9 @@
+enumerators\EncodeDecodeStrategyEnum.class
+strategies\DefaultEncodeDecodeStrategy.class
+strategies\golomb\GolombEncodeStrategy.class
+enumerators\OperationTypeEnum.class
+strategies\golomb\GolombDecodeStrategy.class
+strategies\golomb\GolombStrategy.class
+App.class
+strategies\EncodeDecodeStrategy.class
+mediator\EncodeDecodeMediator.class
