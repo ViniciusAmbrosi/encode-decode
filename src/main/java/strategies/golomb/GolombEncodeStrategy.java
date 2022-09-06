@@ -11,7 +11,6 @@ import java.io.File;
 public class GolombEncodeStrategy extends GolombStrategy{
 
     //private static final boolean STOP_BIT = Boolean.TRUE;
-    private static final int k = 4;
 
     public GolombEncodeStrategy() {
         super(OperationTypeEnum.ENCODE);
@@ -28,26 +27,10 @@ public class GolombEncodeStrategy extends GolombStrategy{
             var charArray = new String(file).chars().toArray();
 
             for (int charValue : charArray) {
-                int remainder = charValue % k;
-                double quotient = Math.floor(charValue / k);
+                var quotient = Math.floor(charValue / ENCODING_K);
+                var rest = charValue % ENCODING_K;
 
-                for (int j = 0; j < quotient; j++) {
-                    bits.write(false);
-                }
-
-                bits.write(true);
-
-                int length = (int) (Math.log10(k) / Math.log10(2));
-                String remainderInBinary = Integer.toBinaryString(remainder);
-
-                for (int j = 0; j < length - remainderInBinary.length(); j++) {
-                    bits.write(false);
-                }
-
-                for (int j = 0; j < remainderInBinary.length(); j++) {
-                    bits.write(remainderInBinary.charAt(j) == '1');
-                }
-
+                GenerateCodeWord(bits, quotient, rest);
             }
 
             FileUtils.writeByteArrayToFile(
@@ -63,19 +46,56 @@ public class GolombEncodeStrategy extends GolombStrategy{
         return true;
     }
 
-    private void writeHeader(BitOutputStream bits) {
-        String header = "1";
+    //generate <Quotient Code><Rest Code>
+    private void GenerateCodeWord(DefaultBitOutputStream bits, double quotient, int rest)
+    {
+        GenerateQuotient(bits, quotient);
+        GenerateRest(bits, rest);
+    }
 
-        for (int i = 0; i < BYTE_SIZE - header.length(); i++) {
+    private void GenerateQuotient(DefaultBitOutputStream bits, double quotient)
+    {
+        for (int j = 0; j < quotient; j++) {
             bits.write(false);
         }
 
-        for (int i = 0; i < header.length(); i++) {
-            bits.write(header.charAt(i) == '1');
+        bits.write(true);
+    }
+
+    private void GenerateRest(DefaultBitOutputStream bits, int rest)
+    {
+        String restString = Integer.toBinaryString(rest);
+
+        for (int j = 0; j < BINARY_LOG_OF_K - restString.length(); j++) {
+            bits.write(false);
         }
 
-        String binaryK = Integer.toBinaryString(k);
+        for (int j = 0; j < restString.length(); j++) {
+            bits.write(restString.charAt(j) == '1');
+        }
+    }
 
+    private void writeHeader(BitOutputStream bits) {
+        String header = "1";
+        String binaryK = Integer.toBinaryString(ENCODING_K);
+
+        AddCodeTypeHeader(bits, header);
+        AddEncodingKHeader(bits, binaryK);
+    }
+
+    private void AddCodeTypeHeader(BitOutputStream bits, String codeType)
+    {
+        for (int i = 0; i < BYTE_SIZE - codeType.length(); i++) {
+            bits.write(false);
+        }
+
+        for (int i = 0; i < codeType.length(); i++) {
+            bits.write(codeType.charAt(i) == '1');
+        }
+    }
+
+    private void AddEncodingKHeader(BitOutputStream bits, String binaryK)
+    {
         for (int j = 0; j < BYTE_SIZE - binaryK.length(); j++) {
             bits.write(false);
         }

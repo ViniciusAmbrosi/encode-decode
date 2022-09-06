@@ -2,8 +2,10 @@ package strategies.golomb;
 
 import enumerators.OperationTypeEnum;
 import files.FileUtilsWrapper;
+import htsjdk.samtools.cram.io.BitInputStream;
 import htsjdk.samtools.cram.io.DefaultBitInputStream;
 import htsjdk.samtools.util.RuntimeEOFException;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +28,20 @@ public class GolombDecodeStrategy extends GolombStrategy{
         try(var bits = new DefaultBitInputStream(byteArray)){
             int numberOfZeroes = 0;
 
-            bits.readBits(BYTE_SIZE);
-            int k = bits.readBits(BYTE_SIZE);
+            int headerIdentifier = bits.readBits(BYTE_SIZE);
+            int headerK = bits.readBits(BYTE_SIZE);
 
-            while (true) {
-                try {
-                    boolean currentBit = bits.readBit();
-                    if (!currentBit) {
-                        numberOfZeroes++;
-                    }
-                    if (STOP_BIT == currentBit) {
-                        int remainder = bits.readBits((int) (Math.log10(k) / Math.log10(2)));
-                        charValues.add((numberOfZeroes * k) + remainder);
-                        numberOfZeroes = 0;
-                    }
-                } catch (RuntimeEOFException e) {
-                    break;
+            while(bits.available() > 0)
+            {
+                boolean currentBit = bits.readBit();
+
+                if (!currentBit) {
+                    numberOfZeroes++;
+                }
+                if (STOP_BIT == currentBit) {
+                    int rest = bits.readBits((int) (Math.log10(headerK) / Math.log10(2)));
+                    charValues.add((numberOfZeroes * headerK) + rest);
+                    numberOfZeroes = 0;
                 }
             }
         }
