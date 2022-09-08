@@ -1,10 +1,13 @@
 enumerators\EncodeDecodeStrategyEnum.class
-strategies\DefaultEncodeDecodeStrategy.class
 strategies\golomb\GolombEncodeStrategy.class
+strategies\unary\UnaryEncodeStrategy.class
 enumerators\OperationTypeEnum.class
-strategies\golomb\GolombDecodeStrategy.class
-strategies\golomb\GolombStrategy.class
+strategies\unary\UnaryDecodeStrategy.class
 App.class
 strategies\EncodeDecodeStrategy.class
 files\FileUtilsWrapper.class
 mediator\EncodeDecodeMediator.class
+strategies\DefaultEncodeDecodeStrategy.class
+strategies\unary\UnaryStrategy.class
+strategies\golomb\GolombDecodeStrategy.class
+strategies\golomb\GolombStrategy.class

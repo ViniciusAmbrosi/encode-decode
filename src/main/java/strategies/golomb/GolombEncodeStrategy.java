@@ -22,7 +22,7 @@ public class GolombEncodeStrategy extends GolombStrategy{
 
         try(var bits = new DefaultBitOutputStream(bytes))
         {
-            writeHeader(bits);
+            WriteHeader(bits, "1", Integer.toBinaryString(ENCODING_K));
 
             var charArray = new String(file).chars().toArray();
 
@@ -72,36 +72,6 @@ public class GolombEncodeStrategy extends GolombStrategy{
 
         for (int j = 0; j < restString.length(); j++) {
             bits.write(restString.charAt(j) == '1');
-        }
-    }
-
-    private void writeHeader(BitOutputStream bits) {
-        String header = "1";
-        String binaryK = Integer.toBinaryString(ENCODING_K);
-
-        AddCodeTypeHeader(bits, header);
-        AddEncodingKHeader(bits, binaryK);
-    }
-
-    private void AddCodeTypeHeader(BitOutputStream bits, String codeType)
-    {
-        for (int i = 0; i < BYTE_SIZE - codeType.length(); i++) {
-            bits.write(false);
-        }
-
-        for (int i = 0; i < codeType.length(); i++) {
-            bits.write(codeType.charAt(i) == '1');
-        }
-    }
-
-    private void AddEncodingKHeader(BitOutputStream bits, String binaryK)
-    {
-        for (int j = 0; j < BYTE_SIZE - binaryK.length(); j++) {
-            bits.write(false);
-        }
-
-        for (int i = 0; i < binaryK.length(); i++) {
-            bits.write(binaryK.charAt(i) == '1');
         }
     }
 }

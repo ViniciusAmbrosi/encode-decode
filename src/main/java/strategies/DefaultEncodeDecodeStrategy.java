@@ -2,6 +2,9 @@ package strategies;
 
 import enumerators.EncodeDecodeStrategyEnum;
 import enumerators.OperationTypeEnum;
+import htsjdk.samtools.cram.io.BitOutputStream;
+
+import java.util.List;
 
 public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrategy{
 
@@ -24,5 +27,51 @@ public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrateg
     @Override
     public EncodeDecodeStrategyEnum GetEncodeDecodeStrategy() {
         return encodeDecodeStrategy;
+    }
+
+    protected String ConvertResultToString(List<Integer> bitCharValues)
+    {
+        return bitCharValues.stream()
+                .mapToInt(Integer::intValue)
+                .mapToObj(this::ConvertIntToChar)
+                .map(Object::toString)
+                .reduce((acc, e) -> acc  + e)
+                .get();
+    }
+
+    protected void WriteHeader(BitOutputStream bits, String headerType, String binaryK)
+    {
+        AddCodeTypeHeader(bits, headerType);
+        AddEncodingKHeader(bits, binaryK);
+    }
+
+    protected void AddCodeTypeHeader(BitOutputStream bits, String codeType)
+    {
+        for (int i = 0; i < BYTE_SIZE - codeType.length(); i++) {
+            bits.write(false);
+        }
+
+        for (int i = 0; i < codeType.length(); i++) {
+            bits.write(codeType.charAt(i) == '1');
+        }
+    }
+
+    protected void AddEncodingKHeader(BitOutputStream bits, String binaryK)
+    {
+        //prevents adding binaryK for encodings w/o binary k.
+        var binaryKSize = binaryK == null ? 0 : binaryK.length();
+
+        for (int j = 0; j < BYTE_SIZE - binaryKSize; j++) {
+            bits.write(false);
+        }
+
+        for (int i = 0; i < binaryKSize; i++) {
+            bits.write(binaryK.charAt(i) == '1');
+        }
+    }
+
+    private char ConvertIntToChar(int charValue)
+    {
+        return (char) charValue;
     }
 }

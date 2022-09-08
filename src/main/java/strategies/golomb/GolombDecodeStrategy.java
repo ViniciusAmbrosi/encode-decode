@@ -57,18 +57,7 @@ public class GolombDecodeStrategy extends GolombStrategy{
         return true;
     }
 
-    private String ConvertResultToString(List<Integer> bitCharValues)
-    {
-        return bitCharValues.stream()
-            .mapToInt(Integer::intValue)
-            .mapToObj(this::ConvertIntToChar)
-            .map(Object::toString)
-            .reduce((acc, e) -> acc  + e)
-            .get();
-    }
 
-    private char ConvertIntToChar(int charValue)
-    {
-        return (char) charValue;
-    }
+
+
 }

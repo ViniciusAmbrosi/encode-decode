@@ -5,6 +5,8 @@ import enumerators.OperationTypeEnum;
 import strategies.EncodeDecodeStrategy;
 import strategies.golomb.GolombDecodeStrategy;
 import strategies.golomb.GolombEncodeStrategy;
+import strategies.unary.UnaryDecodeStrategy;
+import strategies.unary.UnaryEncodeStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,9 @@ public class EncodeDecodeMediator {
 
         this.encodeDecodeStrategyList.add(new GolombEncodeStrategy());
         this.encodeDecodeStrategyList.add(new GolombDecodeStrategy());
+
+        this.encodeDecodeStrategyList.add(new UnaryEncodeStrategy());
+        this.encodeDecodeStrategyList.add(new UnaryDecodeStrategy());
     }
 
     public void RunOperation(
