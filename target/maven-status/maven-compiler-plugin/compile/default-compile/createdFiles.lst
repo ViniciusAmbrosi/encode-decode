@@ -1,5 +1,6 @@
 enumerators\EncodeDecodeStrategyEnum.class
 strategies\golomb\GolombEncodeStrategy.class
+strategies\delta\DeltaStrategy.class
 strategies\unary\UnaryEncodeStrategy.class
 enumerators\OperationTypeEnum.class
 strategies\unary\UnaryDecodeStrategy.class
@@ -8,6 +9,8 @@ strategies\EncodeDecodeStrategy.class
 files\FileUtilsWrapper.class
 mediator\EncodeDecodeMediator.class
 strategies\DefaultEncodeDecodeStrategy.class
+strategies\delta\DeltaEncodeStrategy.class
 strategies\unary\UnaryStrategy.class
+strategies\delta\DeltaDecodeStrategy.class
 strategies\golomb\GolombDecodeStrategy.class
 strategies\golomb\GolombStrategy.class

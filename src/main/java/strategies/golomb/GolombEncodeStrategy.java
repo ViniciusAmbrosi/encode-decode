@@ -1,16 +1,12 @@
 package strategies.golomb;
 
 import enumerators.OperationTypeEnum;
-import htsjdk.samtools.cram.io.BitOutputStream;
 import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 import org.apache.commons.io.FileUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class GolombEncodeStrategy extends GolombStrategy{
-
-    //private static final boolean STOP_BIT = Boolean.TRUE;
 
     public GolombEncodeStrategy() {
         super(OperationTypeEnum.ENCODE);

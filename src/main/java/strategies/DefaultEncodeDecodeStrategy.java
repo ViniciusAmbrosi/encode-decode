@@ -6,6 +6,8 @@ import htsjdk.samtools.cram.io.BitOutputStream;
 
 import java.util.List;
 
+import static java.lang.Math.floor;
+
 public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrategy{
 
     private OperationTypeEnum operationType;
@@ -29,10 +31,25 @@ public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrateg
         return encodeDecodeStrategy;
     }
 
+    protected int CalculateBinaryLog(int value)
+    {
+        return (int) floor((Math.log10(value) / Math.log10(2)));
+    }
+
     protected String ConvertResultToString(List<Integer> bitCharValues)
     {
         return bitCharValues.stream()
                 .mapToInt(Integer::intValue)
+                .mapToObj(this::ConvertIntToChar)
+                .map(Object::toString)
+                .reduce((acc, e) -> acc  + e)
+                .get();
+    }
+
+    protected String ConvertResultToStringLong(List<Long> bitCharValues)
+    {
+        return bitCharValues.stream()
+                .mapToInt(Long::intValue)
                 .mapToObj(this::ConvertIntToChar)
                 .map(Object::toString)
                 .reduce((acc, e) -> acc  + e)

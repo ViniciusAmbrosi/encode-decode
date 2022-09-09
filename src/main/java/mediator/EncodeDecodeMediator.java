@@ -3,6 +3,8 @@ package mediator;
 import enumerators.EncodeDecodeStrategyEnum;
 import enumerators.OperationTypeEnum;
 import strategies.EncodeDecodeStrategy;
+import strategies.delta.DeltaDecodeStrategy;
+import strategies.delta.DeltaEncodeStrategy;
 import strategies.golomb.GolombDecodeStrategy;
 import strategies.golomb.GolombEncodeStrategy;
 import strategies.unary.UnaryDecodeStrategy;
@@ -23,6 +25,9 @@ public class EncodeDecodeMediator {
 
         this.encodeDecodeStrategyList.add(new UnaryEncodeStrategy());
         this.encodeDecodeStrategyList.add(new UnaryDecodeStrategy());
+
+        this.encodeDecodeStrategyList.add(new DeltaEncodeStrategy());
+        this.encodeDecodeStrategyList.add(new DeltaDecodeStrategy());
     }
 
     public void RunOperation(
@@ -39,10 +44,12 @@ public class EncodeDecodeMediator {
         {
             matchingStrategy.get().EncodeDecode(file);
         }
-
-        System.out.printf(
-            "Couldn't find according strategy for operation type [%s] and encode/decode.txt strategy [%s]",
-            operationTypeEnum.toString(),
-            encodeDecodeStrategyEnum.toString());
+        else
+        {
+            System.out.printf(
+                    "Couldn't find according strategy for operation type [%s] and encode/decode.txt strategy [%s]",
+                    operationTypeEnum.toString(),
+                    encodeDecodeStrategyEnum.toString());
+        }
     }
 }

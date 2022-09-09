@@ -20,7 +20,6 @@ public class App {
                 operationTypeEnum,
                 encodeDecodeStrategyEnum,
                 file);
-
     }
 
     private static OperationTypeEnum ConvertOperationType (String value)

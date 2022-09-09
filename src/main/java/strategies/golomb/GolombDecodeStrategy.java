@@ -56,8 +56,4 @@ public class GolombDecodeStrategy extends GolombStrategy{
 
         return true;
     }
-
-
-
-
 }

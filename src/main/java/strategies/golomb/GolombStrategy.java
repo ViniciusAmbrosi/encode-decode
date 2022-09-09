@@ -15,6 +15,6 @@ public abstract class GolombStrategy extends DefaultEncodeDecodeStrategy {
 
     protected int CalculateBinaryLogOfK(int k)
     {
-        return (int) (Math.log10(ENCODING_K) / Math.log10(2));
+        return CalculateBinaryLog(ENCODING_K);
     }
 }
