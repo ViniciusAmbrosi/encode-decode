@@ -5,6 +5,10 @@ import enumerators.OperationTypeEnum;
 import strategies.EncodeDecodeStrategy;
 import strategies.delta.DeltaDecodeStrategy;
 import strategies.delta.DeltaEncodeStrategy;
+import strategies.eliasgamma.EliasGammaDecodeStrategy;
+import strategies.eliasgamma.EliasGammaEncodeStrategy;
+import strategies.fibonnaci.FibonacciDecodeStrategy;
+import strategies.fibonnaci.FibonacciEncodeStrategy;
 import strategies.golomb.GolombDecodeStrategy;
 import strategies.golomb.GolombEncodeStrategy;
 import strategies.unary.UnaryDecodeStrategy;
@@ -18,7 +22,7 @@ public class EncodeDecodeMediator {
     List<EncodeDecodeStrategy> encodeDecodeStrategyList;
 
     public EncodeDecodeMediator () {
-        this.encodeDecodeStrategyList = new ArrayList();
+        this.encodeDecodeStrategyList = new ArrayList<>();
 
         this.encodeDecodeStrategyList.add(new GolombEncodeStrategy());
         this.encodeDecodeStrategyList.add(new GolombDecodeStrategy());
@@ -28,6 +32,12 @@ public class EncodeDecodeMediator {
 
         this.encodeDecodeStrategyList.add(new DeltaEncodeStrategy());
         this.encodeDecodeStrategyList.add(new DeltaDecodeStrategy());
+
+        this.encodeDecodeStrategyList.add(new FibonacciEncodeStrategy());
+        this.encodeDecodeStrategyList.add(new FibonacciDecodeStrategy());
+
+        this.encodeDecodeStrategyList.add(new EliasGammaEncodeStrategy());
+        this.encodeDecodeStrategyList.add(new EliasGammaDecodeStrategy());
     }
 
     public void RunOperation(

@@ -3,9 +3,15 @@ C:\Project\encoder\encoder\src\main\java\strategies\unary\UnaryEncodeStrategy.ja
 C:\Project\encoder\encoder\src\main\java\enumerators\OperationTypeEnum.java
 C:\Project\encoder\encoder\src\main\java\mediator\EncodeDecodeMediator.java
 C:\Project\encoder\encoder\src\main\java\strategies\delta\DeltaEncodeStrategy.java
+C:\Project\encoder\encoder\src\main\java\strategies\eliasgamma\EliasGammaEncodeStrategy.java
 C:\Project\encoder\encoder\src\main\java\strategies\delta\DeltaStrategy.java
+C:\Project\encoder\encoder\src\main\java\strategies\fibonnaci\FibonacciDecodeStrategy.java
+C:\Project\encoder\encoder\src\main\java\strategies\eliasgamma\EliasGammaDecodeStrategy.java
 C:\Project\encoder\encoder\src\main\java\strategies\unary\UnaryStrategy.java
+C:\Project\encoder\encoder\src\main\java\strategies\fibonnaci\FibonacciEncodeStrategy.java
+C:\Project\encoder\encoder\src\main\java\strategies\eliasgamma\EliasGammaStrategy.java
 C:\Project\encoder\encoder\src\main\java\enumerators\EncodeDecodeStrategyEnum.java
+C:\Project\encoder\encoder\src\main\java\strategies\fibonnaci\FibonacciStrategy.java
 C:\Project\encoder\encoder\src\main\java\files\FileUtilsWrapper.java
 C:\Project\encoder\encoder\src\main\java\strategies\unary\UnaryDecodeStrategy.java
 C:\Project\encoder\encoder\src\main\java\strategies\DefaultEncodeDecodeStrategy.java
