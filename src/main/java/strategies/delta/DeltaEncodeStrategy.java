@@ -33,8 +33,6 @@ public class DeltaEncodeStrategy extends DeltaStrategy{
                     bits.write((len >> i) & 1);
                 for (int i = len-2; i >= 0; i--)
                     bits.write((value >> i) & 1);
-
-                System.out.println(Arrays.toString(bytes.toByteArray()));
             }
 
             FileUtils.writeByteArrayToFile(
