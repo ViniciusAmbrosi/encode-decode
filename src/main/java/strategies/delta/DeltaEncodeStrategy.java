@@ -5,6 +5,7 @@ import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeltaEncodeStrategy extends DeltaStrategy{
@@ -14,12 +15,12 @@ public class DeltaEncodeStrategy extends DeltaStrategy{
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         var charArray = new String(file).chars().toArray();
 
         try(var bits = new DefaultBitOutputStream(bytes)){
-            WriteHeader(bits, "4", null);
+            //WriteHeader(bits, "4", null);
 
             for (int value : charArray) {
                 int len, lengthOfLen = 0;
@@ -42,9 +43,11 @@ public class DeltaEncodeStrategy extends DeltaStrategy{
         catch(Exception ex)
         {
             System.out.println("Failure during delta encoding.");
-            return false;
         }
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 }

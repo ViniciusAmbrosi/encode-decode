@@ -19,7 +19,7 @@ public class FibonacciDecodeStrategy extends FibonacciStrategy{
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         List<Integer> charValues = new ArrayList<>();
         ByteArrayInputStream byteArray = new ByteArrayInputStream(file);
 
@@ -45,13 +45,15 @@ public class FibonacciDecodeStrategy extends FibonacciStrategy{
         catch (Exception ex)
         {
             System.out.println("Failure during fibonacci decoding.");
-            return false;
         }
 
         String resultingString = ConvertResultToString(charValues);
         fileUtilsWrapper.WriteToFile("decode.txt", resultingString);
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 
     private int calculateFibonacciForBooleanList(List<Boolean> values) {

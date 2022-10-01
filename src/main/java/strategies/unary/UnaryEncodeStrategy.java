@@ -1,10 +1,7 @@
 package strategies.unary;
 
 import enumerators.OperationTypeEnum;
-import htsjdk.samtools.cram.io.DefaultBitOutputStream;
-import org.apache.commons.io.FileUtils;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.util.ArrayList;
 
 public class UnaryEncodeStrategy extends UnaryStrategy{
 
@@ -13,35 +10,27 @@ public class UnaryEncodeStrategy extends UnaryStrategy{
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
-        var bytes = new ByteArrayOutputStream();
-        var charArray = new String(file).chars().toArray();
-
-        try (var bits = new DefaultBitOutputStream(bytes)){
-            WriteHeader(bits, "2", null);
-
-            for (int charValue : charArray) {
-                PopulateUnaryEncodingForChar(bits, charValue);
-            }
-
-            FileUtils.writeByteArrayToFile(
-                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),
-                    bytes.toByteArray());
-        }
-        catch (Exception ex)
-        {
-            System.out.println("Failure during unary encoding.");
-            return false;
-        }
-
-        return true;
+    public void EncodeDecode(byte[] file) {
+        super.Encode(file);
     }
 
-    private void PopulateUnaryEncodingForChar(DefaultBitOutputStream bits, int charValue) {
-        for (int j = 0; j < charValue; j++) {
-            bits.write(false);
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        var inputArray = new String(file).chars().toArray();
+        var outputArray = new ArrayList<Boolean>();
+
+        for (int charValue : inputArray) {
+            PopulateUnaryEncodingForChar(outputArray, charValue);
         }
 
-        bits.write(true);
+        return outputArray;
+    }
+
+    private void PopulateUnaryEncodingForChar(ArrayList<Boolean> bits, int charValue) {
+        for (int j = 0; j < charValue; j++) {
+            bits.add(false);
+        }
+
+        bits.add(true);
     }
 }

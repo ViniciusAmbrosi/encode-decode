@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 
 public class EliasGammaEncodeStrategy extends EliasGammaStrategy {
 
@@ -14,15 +15,13 @@ public class EliasGammaEncodeStrategy extends EliasGammaStrategy {
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         var bytes = new ByteArrayOutputStream();
 
         try(var bits = new DefaultBitOutputStream(bytes)) {
-            WriteHeader(bits, "16", null);
+            //WriteHeader(bits, "16", null);
 
             var charArray = new String(file).chars().toArray();
-
-            //actual code
 
             FileUtils.writeByteArrayToFile(
                     new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),
@@ -31,9 +30,11 @@ public class EliasGammaEncodeStrategy extends EliasGammaStrategy {
         catch (Exception ex)
         {
             System.out.println("Failure during elias gamma encoding.");
-            return false;
         }
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 }

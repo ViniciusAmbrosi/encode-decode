@@ -7,6 +7,6 @@ import strategies.DefaultEncodeDecodeStrategy;
 public abstract class FibonacciStrategy extends DefaultEncodeDecodeStrategy {
 
     public FibonacciStrategy(OperationTypeEnum operationType) {
-        super(operationType, EncodeDecodeStrategyEnum.FIBONACCI);
+        super(operationType, EncodeDecodeStrategyEnum.FIBONACCI,"8", null);
     }
 }

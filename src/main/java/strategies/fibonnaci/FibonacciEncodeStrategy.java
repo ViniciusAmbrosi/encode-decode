@@ -20,11 +20,11 @@ public class FibonacciEncodeStrategy extends FibonacciStrategy {
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         var bytes = new ByteArrayOutputStream();
 
         try(var bits = new DefaultBitOutputStream(bytes)) {
-            WriteHeader(bits, "8", null);
+            //WriteHeader(bits, "8", null);
 
             var charArray = new String(file).chars().toArray();
 
@@ -40,10 +40,12 @@ public class FibonacciEncodeStrategy extends FibonacciStrategy {
         catch (Exception ex)
         {
             System.out.println("Failure during fibonacci encoding.");
-            return false;
         }
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 
     private List<Integer> FindLargestFibSequenceFor(int valueToEncode, List<Integer> fibonacciList) {

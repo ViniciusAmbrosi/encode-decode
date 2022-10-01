@@ -19,7 +19,7 @@ public class EliasGammaDecodeStrategy extends EliasGammaStrategy {
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         List<Integer> charValues = new ArrayList<>();
         ByteArrayInputStream byteArray = new ByteArrayInputStream(file);
 
@@ -37,12 +37,14 @@ public class EliasGammaDecodeStrategy extends EliasGammaStrategy {
         catch (Exception ex)
         {
             System.out.println("Failure during elias gamma decoding.");
-            return false;
         }
 
         String resultingString = ConvertResultToString(charValues);
         fileUtilsWrapper.WriteToFile("decode.txt", resultingString);
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 
 public class GolombEncodeStrategy extends GolombStrategy{
 
@@ -13,12 +14,12 @@ public class GolombEncodeStrategy extends GolombStrategy{
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         var bytes = new ByteArrayOutputStream();
 
         try(var bits = new DefaultBitOutputStream(bytes))
         {
-            WriteHeader(bits, "1", Integer.toBinaryString(ENCODING_K));
+            //WriteHeader(bits, "1", Integer.toBinaryString(ENCODING_K));
 
             var charArray = new String(file).chars().toArray();
 
@@ -36,10 +37,12 @@ public class GolombEncodeStrategy extends GolombStrategy{
         catch(Exception e)
         {
             System.out.println("Failure during golomb encoding.");
-            return false;
         }
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 
     //generate <Quotient Code><Rest Code>

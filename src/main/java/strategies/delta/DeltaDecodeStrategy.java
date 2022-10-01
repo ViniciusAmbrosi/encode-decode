@@ -17,7 +17,7 @@ public class DeltaDecodeStrategy extends DeltaStrategy{
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         List<Long> charValues = new ArrayList<>();
         ByteArrayInputStream byteArray = new ByteArrayInputStream(file);
 
@@ -58,12 +58,14 @@ public class DeltaDecodeStrategy extends DeltaStrategy{
         catch(Exception e)
         {
             System.out.println("Failure during delta decoding.");
-            return false;
         }
 
         String resultingString = ConvertResultToStringLong(charValues);
         fileUtilsWrapper.WriteToFile("decode.txt", resultingString);
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 }

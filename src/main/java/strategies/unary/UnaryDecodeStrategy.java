@@ -17,7 +17,7 @@ public class UnaryDecodeStrategy extends UnaryStrategy{
     }
 
     @Override
-    public boolean EncodeDecode(byte[] file) {
+    public void EncodeDecode(byte[] file) {
         var byteArray = new ByteArrayInputStream(file);
         try(var bits = new DefaultBitInputStream(byteArray))
         {
@@ -46,9 +46,11 @@ public class UnaryDecodeStrategy extends UnaryStrategy{
         catch (Exception ex)
         {
             System.out.println("Failure during unary decoding.");
-            return false;
         }
+    }
 
-        return true;
+    @Override
+    public ArrayList<Boolean> GenerateBody(byte[] file) {
+        return null;
     }
 }

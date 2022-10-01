@@ -7,6 +7,6 @@ import strategies.DefaultEncodeDecodeStrategy;
 public abstract class EliasGammaStrategy extends DefaultEncodeDecodeStrategy {
 
     public EliasGammaStrategy(OperationTypeEnum operationType) {
-        super(operationType, EncodeDecodeStrategyEnum.ELIASGAMMA);
+        super(operationType, EncodeDecodeStrategyEnum.ELIASGAMMA,"16", null);
     }
 }
