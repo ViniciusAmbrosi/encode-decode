@@ -3,6 +3,8 @@ package strategies.fibonnaci;
 import enumerators.OperationTypeEnum;
 import files.FileUtilsWrapper;
 import htsjdk.samtools.cram.io.DefaultBitInputStream;
+import htsjdk.samtools.cram.io.DefaultBitOutputStream;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +56,11 @@ public class FibonacciDecodeStrategy extends FibonacciStrategy{
     @Override
     public ArrayList<Boolean> GenerateBody(byte[] file) {
         return null;
+    }
+
+    @Override
+    public void WriteBit(Boolean bit, DefaultBitOutputStream bitWriter) {
+
     }
 
     private int calculateFibonacciForBooleanList(List<Boolean> values) {

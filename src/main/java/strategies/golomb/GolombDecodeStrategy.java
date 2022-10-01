@@ -2,10 +2,8 @@ package strategies.golomb;
 
 import enumerators.OperationTypeEnum;
 import files.FileUtilsWrapper;
-import htsjdk.samtools.cram.io.BitInputStream;
 import htsjdk.samtools.cram.io.DefaultBitInputStream;
-import htsjdk.samtools.util.RuntimeEOFException;
-
+import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +55,10 @@ public class GolombDecodeStrategy extends GolombStrategy{
     @Override
     public ArrayList<Boolean> GenerateBody(byte[] file) {
         return null;
+    }
+
+    @Override
+    public void WriteBit(Boolean bit, DefaultBitOutputStream bitWriter) {
+
     }
 }

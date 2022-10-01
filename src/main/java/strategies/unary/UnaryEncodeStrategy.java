@@ -1,6 +1,8 @@
 package strategies.unary;
 
 import enumerators.OperationTypeEnum;
+import htsjdk.samtools.cram.io.DefaultBitOutputStream;
+
 import java.util.ArrayList;
 
 public class UnaryEncodeStrategy extends UnaryStrategy{
@@ -24,6 +26,11 @@ public class UnaryEncodeStrategy extends UnaryStrategy{
         }
 
         return outputArray;
+    }
+
+    @Override
+    public void WriteBit(Boolean bit, DefaultBitOutputStream bitWriter) {
+        bitWriter.write(bit);
     }
 
     private void PopulateUnaryEncodingForChar(ArrayList<Boolean> bits, int charValue) {

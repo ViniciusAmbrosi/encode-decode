@@ -3,6 +3,8 @@ package strategies.unary;
 import enumerators.OperationTypeEnum;
 import files.FileUtilsWrapper;
 import htsjdk.samtools.cram.io.DefaultBitInputStream;
+import htsjdk.samtools.cram.io.DefaultBitOutputStream;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +54,10 @@ public class UnaryDecodeStrategy extends UnaryStrategy{
     @Override
     public ArrayList<Boolean> GenerateBody(byte[] file) {
         return null;
+    }
+
+    @Override
+    public void WriteBit(Boolean bit, DefaultBitOutputStream bitWriter) {
+
     }
 }

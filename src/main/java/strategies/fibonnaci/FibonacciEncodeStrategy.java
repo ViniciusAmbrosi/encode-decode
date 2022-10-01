@@ -2,10 +2,7 @@ package strategies.fibonnaci;
 
 import enumerators.OperationTypeEnum;
 import htsjdk.samtools.cram.io.DefaultBitOutputStream;
-import org.apache.commons.io.FileUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,31 +18,25 @@ public class FibonacciEncodeStrategy extends FibonacciStrategy {
 
     @Override
     public void EncodeDecode(byte[] file) {
-        var bytes = new ByteArrayOutputStream();
-
-        try(var bits = new DefaultBitOutputStream(bytes)) {
-            //WriteHeader(bits, "8", null);
-
-            var charArray = new String(file).chars().toArray();
-
-            for (int charValue : charArray) {
-                var fibonacciSequenceForChar = FindLargestFibSequenceFor(charValue, STARTING_FIBONACCI_VALUES);
-                this.FlagBitsForUsedFibonacciNumbers(charValue, fibonacciSequenceForChar).forEach(bits::write);
-            }
-
-            FileUtils.writeByteArrayToFile(
-                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),
-                    bytes.toByteArray());
-        }
-        catch (Exception ex)
-        {
-            System.out.println("Failure during fibonacci encoding.");
-        }
+        super.Encode(file);
     }
 
     @Override
     public ArrayList<Boolean> GenerateBody(byte[] file) {
-        return null;
+        var inputArray = new String(file).chars().toArray();
+        var outputArray = new ArrayList<Boolean>();
+
+        for (int charValue : inputArray) {
+            var fibonacciSequenceForChar = FindLargestFibSequenceFor(charValue, STARTING_FIBONACCI_VALUES);
+            this.FlagBitsForUsedFibonacciNumbers(charValue, fibonacciSequenceForChar).forEach(outputArray::add);
+        }
+
+        return outputArray;
+    }
+
+    @Override
+    public void WriteBit(Boolean bit, DefaultBitOutputStream bitWriter) {
+        bitWriter.write(bit);
     }
 
     private List<Integer> FindLargestFibSequenceFor(int valueToEncode, List<Integer> fibonacciList) {

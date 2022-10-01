@@ -3,6 +3,8 @@ package strategies.delta;
 import enumerators.OperationTypeEnum;
 import files.FileUtilsWrapper;
 import htsjdk.samtools.cram.io.DefaultBitInputStream;
+import htsjdk.samtools.cram.io.DefaultBitOutputStream;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,12 @@ public class DeltaDecodeStrategy extends DeltaStrategy{
     }
 
     @Override
-    public ArrayList<Boolean> GenerateBody(byte[] file) {
+    public ArrayList<Integer> GenerateBody(byte[] file) {
         return null;
+    }
+
+    @Override
+    public void WriteBit(Integer bit, DefaultBitOutputStream bitWriter) {
+
     }
 }

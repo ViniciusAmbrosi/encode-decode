@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static java.lang.Math.floor;
 
-public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrategy{
+public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStrategy <T>{
 
     private OperationTypeEnum operationType;
     private EncodeDecodeStrategyEnum encodeDecodeStrategy;
@@ -52,7 +52,7 @@ public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrateg
         return encodeDecodeStrategy;
     }
 
-    public void Encode(byte[] file)
+    protected void Encode(byte[] file)
     {
         var header = this.GenerateHeader();
         //generate crc for header
@@ -64,7 +64,7 @@ public abstract class DefaultEncodeDecodeStrategy implements EncodeDecodeStrateg
         try (var bits = new DefaultBitOutputStream(bytes)) {
 
             header.forEach(bits::write);
-            body.forEach(bits::write);
+            body.forEach(bit -> this.WriteBit(bit, bits));
 
             FileUtils.writeByteArrayToFile(
                     new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),

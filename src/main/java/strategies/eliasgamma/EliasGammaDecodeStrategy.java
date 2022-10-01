@@ -3,6 +3,7 @@ package strategies.eliasgamma;
 import enumerators.OperationTypeEnum;
 import files.FileUtilsWrapper;
 import htsjdk.samtools.cram.io.DefaultBitInputStream;
+import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -46,5 +47,10 @@ public class EliasGammaDecodeStrategy extends EliasGammaStrategy {
     @Override
     public ArrayList<Boolean> GenerateBody(byte[] file) {
         return null;
+    }
+
+    @Override
+    public void WriteBit(Boolean bit, DefaultBitOutputStream bitWriter) {
+
     }
 }
