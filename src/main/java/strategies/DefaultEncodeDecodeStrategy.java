@@ -3,10 +3,13 @@ package strategies;
 import enumerators.EncodeDecodeStrategyEnum;
 import enumerators.OperationTypeEnum;
 import htsjdk.samtools.cram.io.DefaultBitOutputStream;
+import noise.NoiseStrategy;
 import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import static java.lang.Math.floor;
 
@@ -16,6 +19,8 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
     private EncodeDecodeStrategyEnum encodeDecodeStrategy;
     private String headerType;
     private String binaryK;
+    private NoiseStrategy crcStrategy;
+    private NoiseStrategy hammingStrategy;
 
     public static final int BYTE_SIZE = 8;
 
@@ -55,20 +60,35 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
     protected void Encode(byte[] file)
     {
         var header = this.GenerateHeader();
-        //generate crc for header
-
         var body = this.GenerateBody(file);
-        //generate hamming for body
 
-        var bytes = new ByteArrayOutputStream();
-        try (var bits = new DefaultBitOutputStream(bytes)) {
+        WriteCodFile(header, body);
 
+        var noiseBytes = new ByteArrayOutputStream();
+        try (var bits = new DefaultBitOutputStream(noiseBytes))
+        {
             header.forEach(bits::write);
-            body.forEach(bit -> this.WriteBit(bit, bits));
+            var headerBytes = noiseBytes.toByteArray();
+
+            //crc
+            //crc ends
+
+            //body.forEach(bit -> this.WriteBit(bit, bits));
+            var bodyBytes = GetBytesForBody(body);
+
+            //hamming
+            for (byte[] bodyCodeword : GetBodyCodeWordsForHamming(bodyBytes))
+            {
+                for (int hammingBit : GenerateHammingCodeword(bodyCodeword)) {
+                    bits.write(hammingBit);
+                }
+            }
+
+            //hamming ends
 
             FileUtils.writeByteArrayToFile(
-                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),
-                    bytes.toByteArray());
+                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.ecc"),
+                    noiseBytes.toByteArray());
         }
         catch(Exception e)
         {
@@ -128,6 +148,78 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
         for (int i = 0; i < binaryKSize; i++) {
             bits.add(binaryK.charAt(i) == '1');
         }
+    }
+
+    private void WriteCodFile(ArrayList<Boolean> header, ArrayList<T> body)
+    {
+        var bytes = new ByteArrayOutputStream();
+        try (var bits = new DefaultBitOutputStream(bytes)) {
+
+            header.forEach(bits::write);
+            body.forEach(bit -> this.WriteBit(bit, bits));
+
+            FileUtils.writeByteArrayToFile(
+                    new File("C:\\Project\\encoder\\encoder\\resources\\encode.cod"),
+                    bytes.toByteArray());
+        }
+        catch(Exception e)
+        {
+            System.out.println(
+                    "Failure during " +
+                            this.GetEncodeDecodeStrategy().toString() +
+                            " " +
+                            this.GetOperationType().toString());
+        }
+    }
+
+    private ArrayList<byte[]> GetBodyCodeWordsForHamming(byte[] bodyBytes)
+    {
+        var bodyCodewords = new ArrayList<byte[]>();
+
+        var currentPosition = 0;
+        while(currentPosition < bodyBytes.length){
+            var bodyCodeword = Arrays.copyOfRange(bodyBytes, currentPosition, currentPosition + 4);
+
+            bodyCodewords.add(bodyCodeword);
+            currentPosition += 4;
+        }
+
+        return bodyCodewords;
+    }
+
+    private int[] GenerateHammingCodeword(byte[] bodyCodeword)
+    {
+        var hammingCodewords = new int[7];
+
+        hammingCodewords[0] = bodyCodeword[0];
+        hammingCodewords[1] = bodyCodeword[1];
+        hammingCodewords[2] = bodyCodeword[2];
+        hammingCodewords[3] = bodyCodeword[3];
+        hammingCodewords[4] = (hammingCodewords[0] ^ hammingCodewords[1] ^ hammingCodewords[2]);
+        hammingCodewords[5] = (hammingCodewords[1] ^ hammingCodewords[2] ^ hammingCodewords[3]);
+        hammingCodewords[6] = (hammingCodewords[0] ^ hammingCodewords[2] ^ hammingCodewords[3]);
+
+        return hammingCodewords;
+    }
+
+    private byte[] GetBytesForBody(ArrayList<T> list)
+    {
+        var bytes = new ByteArrayOutputStream();
+        try (var bits = new DefaultBitOutputStream(bytes))
+        {
+            list.forEach(bit -> this.WriteBit(bit, bits));
+            return bytes.toByteArray();
+        }
+        catch(Exception e)
+        {
+            System.out.println(
+                    "Failure during " +
+                            this.GetEncodeDecodeStrategy().toString() +
+                            " " +
+                            this.GetOperationType().toString());
+        }
+
+        return new byte[0];
     }
 
     private char ConvertIntToChar(int charValue)

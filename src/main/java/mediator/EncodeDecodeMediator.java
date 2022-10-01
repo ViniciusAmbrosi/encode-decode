@@ -2,9 +2,7 @@ package mediator;
 
 import enumerators.EncodeDecodeStrategyEnum;
 import enumerators.OperationTypeEnum;
-import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 import noise.NoiseStrategy;
-import org.apache.commons.io.FileUtils;
 import strategies.EncodeDecodeStrategy;
 import strategies.delta.DeltaDecodeStrategy;
 import strategies.delta.DeltaEncodeStrategy;
@@ -16,16 +14,13 @@ import strategies.golomb.GolombDecodeStrategy;
 import strategies.golomb.GolombEncodeStrategy;
 import strategies.unary.UnaryDecodeStrategy;
 import strategies.unary.UnaryEncodeStrategy;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EncodeDecodeMediator {
 
     List<EncodeDecodeStrategy> encodeDecodeStrategyList;
-    NoiseStrategy crcStrategy;
-    NoiseStrategy hammingStrategy;
+
 
     public EncodeDecodeMediator () {
         this.encodeDecodeStrategyList = new ArrayList<>();
