@@ -32,6 +32,7 @@ public class GolombDecodeStrategy extends GolombStrategy{
             while(bits.available() > 0)
             {
                 boolean currentBit = bits.readBit();
+                System.out.print(currentBit ? "1" : "0");
 
                 if (!currentBit) {
                     numberOfZeroes++;

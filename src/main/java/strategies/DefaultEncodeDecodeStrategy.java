@@ -71,16 +71,21 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
             var headerBytes = noiseBytes.toByteArray();
 
             //crc
+//            var crcBytes= crcStrategy.encode(headerBytes);
+//            for (int crcBit : crcBytes) {
+//                bits.write(crcBit);
+//            }
             //crc ends
 
             //body.forEach(bit -> this.WriteBit(bit, bits));
-            var bodyBytes = GetBytesForBody(body);
+            //var bodyBytes = GetBytesForBody(body);
 
             //hamming
-            for (byte[] bodyCodeword : GetBodyCodeWordsForHamming(bodyBytes))
+            for (List<T> bodyCodeword : GetBodyCodeWordsForHamming(body))
             {
-                for (int hammingBit : GenerateHammingCodeword(bodyCodeword)) {
+                for (boolean hammingBit : GenerateHammingCodeword(bodyCodeword)) {
                     bits.write(hammingBit);
+                    System.out.print(hammingBit ? "1" : "0");
                 }
             }
 
@@ -172,13 +177,14 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
         }
     }
 
-    private ArrayList<byte[]> GetBodyCodeWordsForHamming(byte[] bodyBytes)
+    private ArrayList<List<T>> GetBodyCodeWordsForHamming(List<T> bodyBytes)
     {
-        var bodyCodewords = new ArrayList<byte[]>();
+        var bodyCodewords = new ArrayList<List<T>>();
 
         var currentPosition = 0;
-        while(currentPosition < bodyBytes.length){
-            var bodyCodeword = Arrays.copyOfRange(bodyBytes, currentPosition, currentPosition + 4);
+        while(currentPosition < bodyBytes.size()){
+            var lastPosition = Math.min(bodyBytes.size(), currentPosition + 4);
+            var bodyCodeword = bodyBytes.subList(currentPosition, lastPosition);
 
             bodyCodewords.add(bodyCodeword);
             currentPosition += 4;
@@ -187,14 +193,15 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
         return bodyCodewords;
     }
 
-    private int[] GenerateHammingCodeword(byte[] bodyCodeword)
+    private boolean[] GenerateHammingCodeword(List<T> bodyCodeword)
     {
-        var hammingCodewords = new int[7];
+        var hammingCodewordsPos = 0;
+        var hammingCodewords = new boolean[7];
 
-        hammingCodewords[0] = bodyCodeword[0];
-        hammingCodewords[1] = bodyCodeword[1];
-        hammingCodewords[2] = bodyCodeword[2];
-        hammingCodewords[3] = bodyCodeword[3];
+        for (T word : bodyCodeword) {
+            hammingCodewords[hammingCodewordsPos++] = GetBooleanBitValue(word);
+        }
+
         hammingCodewords[4] = (hammingCodewords[0] ^ hammingCodewords[1] ^ hammingCodewords[2]);
         hammingCodewords[5] = (hammingCodewords[1] ^ hammingCodewords[2] ^ hammingCodewords[3]);
         hammingCodewords[6] = (hammingCodewords[0] ^ hammingCodewords[2] ^ hammingCodewords[3]);

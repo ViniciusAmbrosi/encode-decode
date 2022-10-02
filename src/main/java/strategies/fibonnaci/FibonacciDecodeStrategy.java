@@ -31,16 +31,30 @@ public class FibonacciDecodeStrategy extends FibonacciStrategy{
 
             List<Boolean> mappedNumber = new ArrayList<>();
             boolean lastMappedNumber = false;
+
+            var hammingCodewordPosition = 0;
+            var hammingCodeword = new boolean[7];
+
             while (bits.available() > 0)
             {
-                boolean currentBit = bits.readBit();
-                if (currentBit && currentBit == lastMappedNumber) {
-                    charValues.add(calculateFibonacciForBooleanList(mappedNumber));
-                    mappedNumber.clear();
-                    lastMappedNumber = false;
-                } else {
-                    lastMappedNumber = currentBit;
-                    mappedNumber.add(currentBit);
+                if(hammingCodewordPosition < 7)
+                {
+                    hammingCodeword[hammingCodewordPosition++] = bits.readBit();
+                }
+                else {
+                    hammingCodewordPosition = 0;
+                    var actualBits = Arrays.copyOfRange(hammingCodeword, 0, 4);
+
+                    for (boolean currentBit : actualBits) {
+                        if (currentBit && currentBit == lastMappedNumber) {
+                            charValues.add(calculateFibonacciForBooleanList(mappedNumber));
+                            mappedNumber.clear();
+                            lastMappedNumber = false;
+                        } else {
+                            lastMappedNumber = currentBit;
+                            mappedNumber.add(currentBit);
+                        }
+                    }
                 }
             }
         }

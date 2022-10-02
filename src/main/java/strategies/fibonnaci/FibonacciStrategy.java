@@ -9,4 +9,9 @@ public abstract class FibonacciStrategy extends DefaultEncodeDecodeStrategy <Boo
     public FibonacciStrategy(OperationTypeEnum operationType) {
         super(operationType, EncodeDecodeStrategyEnum.FIBONACCI,"8", null);
     }
+
+    @Override
+    public boolean GetBooleanBitValue(Boolean bit) {
+        return bit;
+    }
 }

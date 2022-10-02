@@ -9,4 +9,9 @@ public abstract class EliasGammaStrategy extends DefaultEncodeDecodeStrategy <Bo
     public EliasGammaStrategy(OperationTypeEnum operationType) {
         super(operationType, EncodeDecodeStrategyEnum.ELIASGAMMA,"16", null);
     }
+
+    @Override
+    public boolean GetBooleanBitValue(Boolean bit) {
+        return bit;
+    }
 }

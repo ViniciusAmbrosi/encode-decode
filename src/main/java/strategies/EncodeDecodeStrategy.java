@@ -14,4 +14,5 @@ public interface EncodeDecodeStrategy <T> {
     public ArrayList<Boolean> GenerateHeader();
     public ArrayList<T> GenerateBody(byte[] file);
     void WriteBit(T bit, DefaultBitOutputStream bitWriter);
+    boolean GetBooleanBitValue(T bit);
 }

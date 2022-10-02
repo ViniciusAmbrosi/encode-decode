@@ -9,4 +9,9 @@ public abstract class UnaryStrategy extends DefaultEncodeDecodeStrategy <Boolean
     public UnaryStrategy(OperationTypeEnum operationType) {
         super(operationType, EncodeDecodeStrategyEnum.UNARY, "2", null);
     }
+
+    @Override
+    public boolean GetBooleanBitValue(Boolean bit) {
+        return bit;
+    }
 }

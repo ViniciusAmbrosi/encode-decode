@@ -17,4 +17,9 @@ public abstract class GolombStrategy extends DefaultEncodeDecodeStrategy <Boolea
     {
         return CalculateBinaryLog(ENCODING_K);
     }
+
+    @Override
+    public boolean GetBooleanBitValue(Boolean bit) {
+        return bit;
+    }
 }

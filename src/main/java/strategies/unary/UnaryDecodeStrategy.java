@@ -7,6 +7,7 @@ import htsjdk.samtools.cram.io.DefaultBitOutputStream;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UnaryDecodeStrategy extends UnaryStrategy{
@@ -30,15 +31,30 @@ public class UnaryDecodeStrategy extends UnaryStrategy{
             List<Integer> chars = new ArrayList<>();
             int numberOfZeroes = 0;
 
-            while(bits.available() > 0) {
-                boolean currentBit = bits.readBit();
+            var hammingCodewordPosition = 0;
+            var hammingCodeword = new byte[7];
 
-                if (!currentBit) {
-                    numberOfZeroes++;
+            while(bits.available() > 0) {
+                if(hammingCodewordPosition < 7)
+                {
+                    hammingCodeword[hammingCodewordPosition++] = bits.readBit() ? (byte) 1 : 0;
                 }
-                if (currentBit) {
-                    chars.add(numberOfZeroes);
-                    numberOfZeroes = 0;
+                else
+                {
+                    hammingCodewordPosition = 0;
+                    var actualBits = Arrays.copyOfRange(hammingCodeword, 0, 4);
+
+                    for (byte currentBit : actualBits) {
+                        System.out.print(currentBit);
+
+                        if (currentBit == 0) {
+                            numberOfZeroes++;
+                        }
+                        if (currentBit == 1) {
+                            chars.add(numberOfZeroes);
+                            numberOfZeroes = 0;
+                        }
+                    }
                 }
             }
 
