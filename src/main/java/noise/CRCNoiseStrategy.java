@@ -45,9 +45,6 @@ public class CRCNoiseStrategy extends AbstractNoiseStrategy{
         for (byte value : array) {
             mergedData[mergePos++] = value;
         }
-        for (byte value : secondArray) {
-            mergedData[mergePos++] = value;
-        }
 
         return mergedData;
     }

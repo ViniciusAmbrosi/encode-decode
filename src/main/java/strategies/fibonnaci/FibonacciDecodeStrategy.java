@@ -28,6 +28,7 @@ public class FibonacciDecodeStrategy extends FibonacciStrategy{
         try(var bits = new DefaultBitInputStream(byteArray)) {
             int headerIdentifier = bits.readBits(BYTE_SIZE);
             int headerK = bits.readBits(BYTE_SIZE);
+            int crcCode = bits.readBits(BYTE_SIZE);
 
             List<Boolean> mappedNumber = new ArrayList<>();
             boolean lastMappedNumber = false;

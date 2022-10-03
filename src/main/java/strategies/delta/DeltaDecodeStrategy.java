@@ -26,6 +26,7 @@ public class DeltaDecodeStrategy extends DeltaStrategy{
         try(var bits = new DefaultBitInputStream(byteArray)) {
             int headerIdentifier = bits.readBits(BYTE_SIZE);
             int headerK = bits.readBits(BYTE_SIZE);
+            int crcCode = bits.readBits(BYTE_SIZE);
 
             int numberOfZeroes = 0; //length Of Len
 

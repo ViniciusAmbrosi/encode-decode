@@ -3,6 +3,7 @@ package strategies;
 import enumerators.EncodeDecodeStrategyEnum;
 import enumerators.OperationTypeEnum;
 import htsjdk.samtools.cram.io.DefaultBitOutputStream;
+import noise.CRCNoiseStrategy;
 import noise.NoiseStrategy;
 import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayOutputStream;
@@ -19,7 +20,7 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
     private EncodeDecodeStrategyEnum encodeDecodeStrategy;
     private String headerType;
     private String binaryK;
-    private NoiseStrategy crcStrategy;
+    private NoiseStrategy crcStrategy = new CRCNoiseStrategy();
     private NoiseStrategy hammingStrategy;
 
     public static final int BYTE_SIZE = 8;
@@ -57,6 +58,18 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
         return encodeDecodeStrategy;
     }
 
+    private byte[] ToByteArray(List<Boolean> list, int size)
+    {
+        var bitArray = new byte[size];
+        var bitArrayPos = 0;
+
+        for (Boolean bool : list) {
+            bitArray[bitArrayPos++] = bool ? (byte) 1 : 0;
+        }
+
+        return bitArray;
+    }
+
     protected void Encode(byte[] file)
     {
         var header = this.GenerateHeader();
@@ -68,17 +81,14 @@ public abstract class DefaultEncodeDecodeStrategy <T> implements EncodeDecodeStr
         try (var bits = new DefaultBitOutputStream(noiseBytes))
         {
             header.forEach(bits::write);
-            var headerBytes = noiseBytes.toByteArray();
+            var headerBytes = ToByteArray(header, 16);
 
             //crc
-//            var crcBytes= crcStrategy.encode(headerBytes);
-//            for (int crcBit : crcBytes) {
-//                bits.write(crcBit);
-//            }
+            var crcBytes= crcStrategy.encode(headerBytes);
+            for (int crcBit : crcBytes) {
+                bits.write(crcBit);
+            }
             //crc ends
-
-            //body.forEach(bit -> this.WriteBit(bit, bits));
-            //var bodyBytes = GetBytesForBody(body);
 
             //hamming
             for (List<T> bodyCodeword : GetBodyCodeWordsForHamming(body))

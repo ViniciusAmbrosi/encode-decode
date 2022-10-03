@@ -28,6 +28,7 @@ public class GolombDecodeStrategy extends GolombStrategy{
 
             int headerIdentifier = bits.readBits(BYTE_SIZE);
             int headerK = bits.readBits(BYTE_SIZE);
+            int crcCode = bits.readBits(BYTE_SIZE);
 
             while(bits.available() > 0)
             {

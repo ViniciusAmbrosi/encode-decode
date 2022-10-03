@@ -27,6 +27,7 @@ public class UnaryDecodeStrategy extends UnaryStrategy{
             //fetching header information to allow proper decoding
             int headerIdentifier = bits.readBits(BYTE_SIZE);
             int headerK = bits.readBits(BYTE_SIZE);
+            int crcCode = bits.readBits(BYTE_SIZE);
 
             List<Integer> chars = new ArrayList<>();
             int numberOfZeroes = 0;
