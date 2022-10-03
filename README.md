@@ -1,3 +1,6 @@
+# Membros do grupo
+Vinicius Ambrosi
+
 # Encode & Decode 
 Este trabalho inclui tratamento de encoding e decode para as  estratégias Unary, Golomb, Fibonnaci, Elias Gamma e Delta. Junto, inclui também a implementação de algorítmos de ruído como CRC8 e Hamming, sendo o CRC8 aplicado no cabeçalho de 16 bits (2 bytes) e o hamming aplicado em cada codeword gerado pelo meio de encoding.
 
