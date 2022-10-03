@@ -13,8 +13,11 @@ De forma a executar o projeto é necessario:
    * Install - instala dependências do gerenciador maven
    * Package - gera .jar na pasta targets para execução
 * Pode optar agora por rodar, utilizando:
-   * O jar manualmente com 'java -jar "nome_do_jar.jar"' localizado na pasta target OU
-   * Os targets to maven com 'mvn exec:java -Dexec.mainClass=App "-Dexec.args=<caminho_do_arquivo> <modo_a_ser_executado> <código>"
-      * caminho_do_arquivo é o caminho absoluto de um arquivo txt
-      * modo_a_ser_executado é ENCODE ou DECODE
-      * código é UNARY, GOLOMB, FIBONACCI, ELIASGAMMA ou DELTA
+   * O jar manualmente com 'java -jar "nome_do_jar.jar" <caminho_do_arquivo> <modo_a_ser_executado> <código>' localizado na pasta target OU
+   * Os targets to maven com 'mvn exec:java -Dexec.mainClass=App "-Dexec.args=<caminho_do_arquivo> <modo_a_ser_executado> <código>".
+* Executar um dos comandos acima, sendo que os argumentos são baseados em:
+   * caminho_do_arquivo é o caminho absoluto de um arquivo txt
+   * modo_a_ser_executado é ENCODE ou DECODE
+   * código é UNARY, GOLOMB, FIBONACCI, ELIASGAMMA ou DELTA
+* Deve ver na pasta resources durante ENCODE arquivos surgirem com nome de encode.ecc e encode.cod
+* Deve ver na pasta resources durante DECODE um arquivo com nome decode.txt surgir
