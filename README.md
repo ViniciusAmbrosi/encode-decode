@@ -20,7 +20,7 @@ De forma a executar o projeto é necessario:
    * Os targets to maven com 'mvn exec:java -Dexec.mainClass=App "-Dexec.args=<caminho_do_arquivo> <modo_a_ser_executado> <código>".
 * Executar um dos comandos acima, sendo que os argumentos são baseados em:
    * caminho_do_arquivo é o caminho absoluto de um arquivo txt
-   * modo_a_ser_executado é ENCODE ou DECODE
-   * código é UNARY, GOLOMB, FIBONACCI, ELIASGAMMA ou DELTA
+   * modo_a_ser_executado é ENCODE ou DECODE - opções definidas em [Modos](https://github.com/ViniciusAmbrosi/encode-decode/blob/main/src/main/java/enumerators/OperationTypeEnum.java)
+   * código é UNARY, GOLOMB, FIBONACCI, ELIASGAMMA ou DELTA - opções definnidas em [Códigos](https://github.com/ViniciusAmbrosi/encode-decode/blob/main/src/main/java/enumerators/EncodeDecodeStrategyEnum.java)
 * Deve ver na pasta resources durante ENCODE arquivos surgirem com nome de encode.ecc e encode.cod
 * Deve ver na pasta resources durante DECODE um arquivo com nome decode.txt surgir
